@@ -28,4 +28,10 @@ jobs:
         run: python -m playwright install --with-deps
 
       - name: Run Pytest Tests
-        run: pytest -v
+        run: pytest -v --headed --html=report.html --self-contained-html
+
+      - name: Upload HTML Report
+        uses: action/upload-artifact@v4
+        with:
+          name: TestReport
+          path: report.html
