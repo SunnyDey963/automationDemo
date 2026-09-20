@@ -27,13 +27,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Ensure browsers are installed
-        run: |
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            python -m playwright install --with-deps
-          else
-            python -m playwright install
-          fi
+      - name: Ensure browsers are installed (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: python -m playwright install --with-deps
+
+      - name: Ensure browsers are installed (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: python -m playwright install
 
       - name: Run your tests
         run: pytest --tracing=retain-on-failure
