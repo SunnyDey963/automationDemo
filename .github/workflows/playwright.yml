@@ -8,12 +8,8 @@ on:
 
 jobs:
   test:
+    runs-on: windows-latest
     timeout-minutes: 60
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -27,12 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Ensure browsers are installed (Linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: python -m playwright install --with-deps
-
-      - name: Ensure browsers are installed (Windows)
-        if: ${{ matrix.os == 'windows-latest' }}
+      - name: Ensure browsers are installed
         run: python -m playwright install
 
       - name: Run your tests
@@ -43,3 +34,4 @@ jobs:
         with:
           name: playwright-traces
           path: test-results/
+
