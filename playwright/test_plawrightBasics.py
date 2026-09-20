@@ -39,3 +39,24 @@ def test_firefoxBrowser(playwright: Playwright):
     expect(page.get_by_text("Incorrect username/password")).to_be_visible()
     time.sleep(5)
 
+# web table automation:
+# 1. identify the price colomn
+# 2.  identify the banana row
+# 3. extract the price of banana
+
+def test_uiTable(page:Page):
+    page.goto("https://rahulshettyacademy.com/seleniumPractise/#/offers")
+
+    for index in range(page.locator("th").count()):
+        if page.locator("th").nth(index).filter(has_text="Price").count()>0:
+            colValue = index
+            print(f"price colvalue is {colValue}")
+            break
+
+    bananRow = page.locator("tr").filter(has_text="banana")
+    expect(bananRow.locator("td").nth(colValue)).to_have_text("87")
+
+
+
+
+
